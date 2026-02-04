@@ -108,7 +108,7 @@ export class SubMenuMasterListComponent {
     const initialState: ModalOptions = {
       initialState: {
         title: `Menu Master  : ${item?.menu_name}`,
-        content: 'Are you sure you want to delete?',
+        content: 'Are you sure you want to delete it?',
         primaryActionLabel: 'Delete',
         secondaryActionLabel: 'Cancel',
         service: url,
