@@ -1,0 +1,272 @@
+<!-- <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 mb-4">
+
+    <div class="bg-white rounded-md shadow w-full flex flex-col">
+        <div class="p-3">
+            <div class="flex justify-between items-center gap-1">
+                <div class="flex items-center gap-1">
+                    <svg class="w-4 h-4 text-blue-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h18v18H3z" />
+                    </svg>
+                    <h5 class="text-xs font-medium text-blue-600">All</h5>
+                </div>
+                <p class="text-lg font-semibold">{{ dashboardCount?.all ?? 0 }}</p>
+            </div>
+        </div>
+
+        <button class="bg-[#787bff] p-1 text-xs text-white rounded-b-md flex justify-center items-center"
+            (click)="onSelectCard('all')">
+            View <i class="fa fa-arrow-right pl-1 text-xs"></i>
+        </button>
+    </div>
+
+    <div class="bg-white rounded-md shadow w-full flex flex-col">
+        <div class="p-3">
+            <div class="flex justify-between items-center gap-1">
+                <div class="flex items-center gap-1">
+                    <svg class="w-4 h-4 text-green-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <h5 class="text-xs font-medium text-green-600">Approved</h5>
+                </div>
+                <p class="text-lg font-semibold">{{ dashboardCount?.approved ?? 0 }}</p>
+            </div>
+        </div>
+
+        <button class="bg-[#787bff] p-1 text-xs text-white rounded-b-md flex justify-center items-center"
+            (click)="onSelectCard('approved')">
+            View <i class="fa fa-arrow-right pl-1 text-xs"></i>
+        </button>
+    </div>
+
+    <div class="bg-white rounded-md shadow w-full flex flex-col">
+        <div class="p-3">
+            <div class="flex justify-between items-center gap-1">
+                <div class="flex items-center gap-1">
+                    <svg class="w-4 h-4 text-yellow-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3" />
+                    </svg>
+                    <h5 class="text-xs font-medium text-yellow-500">Pending</h5>
+                </div>
+                <p class="text-lg font-semibold">{{ dashboardCount?.pending ?? 0 }}</p>
+            </div>
+        </div>
+
+        <button class="bg-[#787bff] p-1 text-xs text-white rounded-b-md flex justify-center items-center"
+            (click)="onSelectCard('pending')">
+            View <i class="fa fa-arrow-right pl-1 text-xs"></i>
+        </button>
+    </div>
+
+    <div class="bg-white rounded-md shadow w-full flex flex-col">
+        <div class="p-3">
+            <div class="flex justify-between items-center gap-1">
+                <div class="flex items-center gap-1">
+                    <svg class="w-4 h-4 text-red-600" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                    <h5 class="text-xs font-medium text-red-600">Rejected</h5>
+                </div>
+                <p class="text-lg font-semibold">{{ dashboardCount?.rejected ?? 0 }}</p>
+            </div>
+        </div>
+
+        <button class="bg-[#787bff] p-1 text-xs text-white rounded-b-md flex justify-center items-center"
+            (click)="onSelectCard('rejected')">
+            View <i class="fa fa-arrow-right pl-1 text-xs"></i>
+        </button>
+    </div>
+
+</div> -->
+
+
+<div class="card">
+    <div class="card-header">
+        <div class="header-part">
+            <span>Activation List</span>
+            <div class="counting">
+                <span>
+                    {{ pagesize.count > 0 ? startValue : 0 }} -
+                    {{ pagesize.count > 0 ? lastValue : 0 }}
+                    OF {{ pagesize.count > 0 ? pagesize.count : 0 }} Activation
+                </span>
+            </div>
+            @if (pagesize.count && pagesize.count > 0) {
+            <div class="row">
+                <div class="d-flex justify-content-center">
+                    <pagination-controls id="activationId" [maxSize]="10" [responsive]="true" [nextLabel]="''"
+                        [previousLabel]="''" (pageChange)="onTablePageChange($event)">
+                    </pagination-controls>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+    <div class="card-body">
+        <form [formGroup]="activationForm">
+
+            <div
+                class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-2 items-end">
+                @if(this.userDetails?.RoleId == "1" || this.userDetails?.RoleId == "6") {
+                <div>
+                    <label class="form-label">Distributer</label>
+                    <ngx-select-dropdown [config]="config" formControlName="distributor" [options]="distributerDropdown"
+                        class="lg:w-[250px] sm:w-full md:w-full" (change)="onSelectDistributer($event)">
+                    </ngx-select-dropdown>
+                </div>
+
+                <div>
+                    <label class="form-label">Dealer</label>
+                    <ngx-select-dropdown [config]="config2" formControlName="dealer" [options]="dealerList"
+                        class="lg:w-[250px] sm:w-full md:w-full" (change)="onSelectDealer($event)">
+                    </ngx-select-dropdown>
+                </div>
+                }
+
+
+                <div>
+                    <label class="form-label">From Date</label>
+                    <input type="date" class="form-control" formControlName="fromDate" />
+                </div>
+
+                <div>
+                    <label class="form-label">To Date</label>
+                    <input type="date" class="form-control" formControlName="toDate" />
+                </div>
+
+                <div>
+                    <label class="form-label">Filter</label>
+                    <ngx-select-dropdown [config]="config3" formControlName="filter" [options]="filterValue" (change)="onSelectFilter($event)"
+                        class="lg:w-[250px] sm:w-full md:w-full">
+                    </ngx-select-dropdown>
+                </div>
+                 @if(this.userDetails?.RoleId !== "1" && this.userDetails?.RoleId !== "6") {
+ <div class="flex">
+                    <button type="submit" class="btn btn-primary w-full h-[38px] flex items-center justify-center gap-2"
+                        (click)="getActivationList()">
+                        <i class="fa fa-eye"></i>
+                        Show
+                    </button>
+                </div>
+                 }
+               
+
+            </div>
+
+        </form>
+
+
+        <div class="header-container flex flex-col sm:flex-row justify-between gap-4 py-2">
+            <div class="left-section flex items-center justify-between sm:justify-start space-x-2">
+                <div class="flex items-center justify-between sm:justify-start space-x-2">
+                    <label for="itemsPerPage" class="text-sm text-gray-700 whitespace-nowrap">Items per page:</label>
+                    <select id="itemsPerPage"
+                        class="block w-20 p-2 bg-white border border-gray-300 rounded shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-700"
+                        [(ngModel)]="pagesize.limit" (change)="onPageSizeChange($event)">
+                        @for (size of [25, 50, 100]; track $index) {
+                        <option [value]="size">{{ size }}</option>
+                        }
+                    </select>
+                </div>
+                <div class="search-form">
+                    <input placeholder="Search for..." type="text" [(ngModel)]="searchKeyword"
+                        (input)="onSearch($event)" class="form-control search-input" />
+                    @if(searchKeyword) {
+                    <button type="button" class="btn-search" (click)="clearSearch()">
+                        <i class="fa fa-close"></i>
+                    </button>
+                    } @else {
+                    <button type="button" class="btn-search">
+                        <i class="fa fa-search"></i>
+                    </button>
+                    }
+                </div>
+
+            </div>
+
+            <div class="right-section flex flex-col sm:flex-row gap-4 sm:gap-x-2 w-full sm:w-auto">
+    <button class="btn btn-success" (click)="downloadExcel()"
+                   [disabled]="isExcelLoading">
+                    <i class="fas fa-file-excel mr-2"></i> {{ isExcelLoading ? 'Downloading...' : 'Excel' }}
+                </button>
+                <!-- <button class="btn btn-success inline-flex items-center gap-2 h-[38px]" (click)="downloadExcel()">
+                    <i class="fas fa-file-excel"></i>
+                    Excel
+                </button> -->
+ @if(this.userDetails?.RoleId == "1" || this.userDetails?.RoleId == "6") {
+  <button type="submit"
+                    class="btn btn-primary inline-flex items-center gap-2 h-[38px] w-full sm:w-[140px]"
+                    (click)="getActivationList()">
+                    <i class="fa fa-eye"></i>
+                    Show
+                </button>
+ }
+              
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="overflow-auto">
+                    <div id="datatable_wrapper">
+                        @if (isLoading) {
+                        <app-loader />
+                        } @else {
+                        <table id="datatable" class="table table-striped nowrap dataTable no-footer dtr-inline"
+                            role="grid" #TABLE aria-describedby="datatable_info" style="width: 100%" width="100%">
+                            <thead>
+                                <tr role="row">
+                                    @for (vehicleHeading of columns; track $index) {
+                                    <th>
+                                        <span>{{ vehicleHeading?.title }}</span>
+                                    </th>
+                                    }
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if(activationList && activationList.length > 0) {
+                                @for (item of activationList | searchFilter: searchKeyword | paginate: {id: 'activationId',
+                                itemsPerPage: pagesize.limit, currentPage: pagesize.offset, totalItems:
+                                pagesize.count}; track $index) {
+                                <tr>
+                                    <td>
+                                        {{ (pagesize.offset - 1) * pagesize.limit + $index + 1 }}
+                                    </td>
+                                    <td>{{ item?.created_at | date:'dd/MM/yyyy' }}</td>
+                                    <td>{{ item?.iccid || 'NA' }}</td>
+                                    <td>{{ item?.category_name || 'NA' }}</td>
+                                    <td>{{ item?.sub_category_name || 'NA' }}</td>
+                                    <td>{{ item?.action || 'NA' }}</td>
+                                    <td>{{ item?.firstName || 'NA' }}</td>
+                                    <td>{{ item?.roleName || 'NA' }}</td>
+                                    <td>{{ item?.request_amount | number:'1.2-2' }}</td>
+                                    <td>{{ item?.total_tax | number:'1.2-2' }}</td>
+                                    <td>{{ item?.net_amount | number:'1.2-2' }}</td>
+                                    <td>
+                                        <span class="badge rounded-pill text-white" [ngClass]="{
+      'bg-success': item?.taisys_resultObj_r_status === 'APPROVED',
+      'bg-warning': item?.taisys_resultObj_r_status === 'PENDING',
+      'bg-danger': item?.taisys_resultObj_r_status === 'REJECTED',
+      'bg-secondary': !item?.taisys_resultObj_r_status
+    }">
+                                            {{ item?.taisys_resultObj_r_status || 'NA' }}
+                                        </span>
+                                    </td>
+                                </tr>
+
+                                }
+                                }
+                            </tbody>
+                        </table>
+                        }
+                    </div>
+                </div>
+                @if(!activationList?.length || !(activationList | searchFilter: searchKeyword)?.length) {
+                <div class="text-center py-4 text-gray-500">
+                    No Activation Available
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

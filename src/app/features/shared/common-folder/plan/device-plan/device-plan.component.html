@@ -1,0 +1,83 @@
+<form [formGroup]="devicePlanForm"
+    class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 mb-4">
+    <div>
+        <label class="form-label">Device</label>
+        <ngx-select-dropdown [config]="config" [options]="productList" formControlName="device">
+        </ngx-select-dropdown>
+
+        @if (devicePlanForm.get('device')?.invalid &&
+        (devicePlanForm.get('device')?.dirty || devicePlanForm.get('device')?.touched)) {
+        <span class="text-danger">Device is Required</span>
+        }
+    </div>
+
+    <div>
+        <label class="form-label">Amount</label>
+        <input type="text" class="form-control" placeholder="Enter Amount" formControlName="amount" />
+        @if (devicePlanForm.get('amount')?.invalid &&
+        (devicePlanForm.get('amount')?.dirty || devicePlanForm.get('amount')?.touched)) {
+        <span class="text-danger">Amount is Required</span>
+        }
+    </div>
+    <div>
+        <label class="form-label">From Date</label>
+        <input type="date" class="form-control" placeholder="Enter From Date" formControlName="fromDate" />
+        @if (devicePlanForm.get('fromDate')?.invalid &&
+        (devicePlanForm.get('fromDate')?.dirty || devicePlanForm.get('fromDate')?.touched)) {
+        <span class="text-danger">From Date is Required</span>
+        }
+    </div>
+    <div>
+        <label class="form-label">To Date</label>
+        <input type="date" class="form-control" placeholder="Enter To Date" formControlName="toDate" />
+        @if (devicePlanForm.get('toDate')?.invalid &&
+        (devicePlanForm.get('toDate')?.dirty || devicePlanForm.get('toDate')?.touched)) {
+        <span class="text-danger">To Date is Required</span>
+        }
+    </div>
+
+
+    <div>
+        <br>
+        <div class="flex gap-2 mt-2">
+            <button class="btn btn-success w-full" type="submit" [disabled]="devicePlanForm.invalid">
+                Submit
+            </button>
+
+            <button class="btn btn-danger w-full" type="button">
+                Cancel
+            </button>
+        </div>
+    </div>
+</form>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="overflow-auto">
+            <div id="datatable_wrapper">
+                @if (isLoading) {
+                <app-loader />
+                } @else {
+                <table id="datatable" class="table table-striped nowrap dataTable no-footer dtr-inline" role="grid"
+                    #TABLE aria-describedby="datatable_info" style="width: 100%" width="100%">
+                    <thead>
+                        <tr role="row">
+                            @for (vehicleHeading of columns; track $index) {
+                            <th>
+                                <span>{{ vehicleHeading?.title }}</span>
+                            </th>
+                            }
+                        </tr>
+                    </thead>
+
+                </table>
+                }
+            </div>
+        </div>
+        @if(!devicePlanList?.length) {
+        <div class="text-center py-4 text-gray-500">
+            No Device Plan Available
+        </div>
+        }
+    </div>
+</div>

@@ -1,0 +1,87 @@
+<div class="modal-header text-center">
+    <h5>{{tittle}}</h5>
+    <div class="close-modal">
+        <i class="fa fa-close" style="cursor: pointer;" (click)="cancel()"></i>
+    </div>
+</div>
+<div class="modal-body">
+    <form [formGroup]="transferForm">
+        <div class="_card white-bg">
+            <div class="row">
+                @if (!hideIccid) {
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">ICCID (comma separated)</label>
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control" placeholder="Enter ICCID (comma separated)"
+                            formControlName="iccid" />
+                    </div>
+                    <small class="text-muted d-block mb-1">
+                        Example: 123456, 123456, 123456
+                    </small>
+
+                    @if (transferForm.get('iccid')?.hasError('required') && transferForm.get('iccid')?.touched) {
+                    <span class="text-danger">ICCID is required</span>
+                    }
+                    @if (transferForm.get('iccid')?.hasError('pattern')) {
+                    <span class="text-danger">ICCID cannot be more than 20 digits</span>
+                    }
+                </div>
+                }
+
+                @if (this.userDetails?.RoleId == 6 ) {
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Distributer</label>
+                    <ngx-select-dropdown [config]="config" [options]="distributerDropdown" formControlName="distributer"
+                        class="lg:w-[250px] sm:w-full md:w-full">
+                    </ngx-select-dropdown>
+
+                    @if (transferForm.get('distributer')?.invalid &&
+                    (transferForm.get('distributer')?.dirty || transferForm.get('distributer')?.touched)) {
+                    <div>
+                        @if (transferForm.get('distributer')?.errors?.['required']) {
+                        <span class="text-danger">Distributer is Required</span>
+                        }
+
+                    </div>
+                    }
+                </div>
+                }
+
+
+                @if (this.userDetails?.RoleId == 2 ) {
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Dealer</label>
+                    <ngx-select-dropdown [config]="config1" formControlName="dealer" [options]="dealerList"
+                        class="lg:w-[250px] sm:w-full md:w-full">
+                    </ngx-select-dropdown>
+                    @if (transferForm.get('dealer')?.invalid &&
+                    (transferForm.get('dealer')?.dirty || transferForm.get('dealer')?.touched)) {
+                    <div>
+                        @if (transferForm.get('dealer')?.errors?.['required']) {
+                        <span class="text-danger">Dealer is Required</span>
+                        }
+
+                    </div>
+                    }
+                </div>
+
+                }
+
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="button-container">
+                @if (!hideIccid) {
+                <button class="btn btn-success" type="submit" [disabled]="isLoading"
+                    (click)="submitManualDevice(transferForm.value)" [disabled]="isLoading">{{ isLoading ?
+                    'Submitting...' : 'Submit' }}</button>
+                }@else {
+                <button class="btn btn-success" type="submit" [disabled]="isLoading"
+                    (click)="submit(transferForm.value)">{{ isLoading ? 'Submitting...' : 'Submit' }}</button>
+                }
+                <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>

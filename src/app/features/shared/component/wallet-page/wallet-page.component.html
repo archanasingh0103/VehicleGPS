@@ -1,0 +1,105 @@
+<div class="modal-header text-center">
+    <h5>Wallet Detail</h5>
+    <div class="close-modal">
+        <i class="fa fa-close" style="cursor: pointer;" (click)="cancel()"></i>
+    </div>
+</div>
+
+<div class="modal-body">
+    @if (isLoading || isPaymentLoading) {
+    <div class="popup-loader d-flex justify-content-center align-items-center">
+        <div class="spinner-border text-primary" role="status" style="width: 2rem; height: 2rem;">
+        </div>
+    </div> }@else {
+
+    @if (!walletResponse?.isSuccess) {
+    <div class="text-center py-4">
+        <div class="mb-3">
+            <i class="fa fa-exclamation-circle text-red-500 text-4xl"></i>
+        </div>
+        <p class="text-gray-700 font-medium">
+            {{ walletResponse?.actionResponse || 'Wallet not found!' }}
+        </p>
+        <p class="text-gray-500 text-sm mb-3">
+            Please create your wallet to continue.
+        </p>
+        <button class="btn btn-primary" (click)="createWallet()">
+            Create Wallet
+        </button>
+    </div>
+    }
+    @else {
+
+    <div class="border rounded p-3 mb-3 bg-white">
+        <label class="form-label">Add Money</label>
+        <div class="d-flex justify-content-between  align-items-center">
+            <input type="number" class="form-control" placeholder="Enter amount" [(ngModel)]="addAmount" min="1"
+                style="max-width: 200px;" />
+            <button class="btn btn-success" (click)="openRazorpay(addAmount)" [disabled]="!addAmount || addAmount <= 0">
+                Add Money
+            </button>
+
+        </div>
+
+        @if(addAmountError){
+        <p class="text-danger mt-1" style="font-size: 12px;">{{ addAmountError }}</p>
+        }
+    </div>
+    <div class="border rounded p-3 mb-3 bg-light">
+        <div class="d-flex justify-content-between align-items-center">
+
+            <!-- Left: Balance Info -->
+            <div>
+                <p class="text-muted mb-1">Wallet Balance</p>
+                <h3 class="m-0">
+                    ₹{{ walletResponse?.result?.wallet_balance || 0 }}
+                </h3>
+                <p class="text-muted mb-0" style="font-size: 12px;">
+                    Currency: <strong>{{ walletResponse?.result?.wallet_currency }}</strong>
+                </p>
+            </div>
+
+            <i class="fa fa-wallet text-primary" style="font-size: 28px;"></i>
+        </div>
+    </div>
+
+    <div class="border rounded p-3 mb-3 bg-white">
+        <div class="row">
+            <div class="col-7">
+                <p class="text-muted mb-1" style="font-size: 12px;">Employee Name</p>
+                <p class="mb-0" style="font-size: 12px; word-break: break-all;">
+                    {{ userDetails?.EmployeeName }}
+                </p>
+            </div>
+
+            <div class="col-5 text-end">
+                <p class="text-muted mb-1" style="font-size: 12px;">Status</p>
+                <span class="badge"
+                    [ngClass]="walletResponse?.result?.wallet_status === 'active' ? 'bg-success' : 'bg-secondary'">
+                    {{ walletResponse?.result?.wallet_status | titlecase }}
+                </span>
+            </div>
+        </div>
+
+        <div class="mt-2 d-flex justify-content-between" style="font-size: 12px;">
+            <!-- <span>Employee ID: <strong>{{ walletResponse?.result?.employee_id }}</strong></span> -->
+            <span>Created Date:
+                <strong>{{ walletResponse?.result?.created_at | date:'dd/MM/yyyy' }}</strong>
+            </span>
+            <span> Last Updated Date:
+                <strong>{{ walletResponse?.result?.updated_at | date:'dd/MM/yyyy' }}</strong>
+            </span>
+        </div>
+    </div>
+
+
+    <!-- <div class="text-muted" style="font-size: 12px;">
+        Last Updated Date:
+        <strong>{{ walletResponse?.result?.updated_at | date:'dd/MM/yyyy' }}</strong>
+    </div> -->
+
+    }
+    }
+
+
+</div>

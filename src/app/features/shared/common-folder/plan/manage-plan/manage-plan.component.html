@@ -1,0 +1,32 @@
+<div class="modal-header text-center">
+    <h5>{{tittle}}</h5>
+    <div class="close-modal">
+        <i class="fa fa-close" style="cursor: pointer;" (click)="cancel()"></i>
+    </div>
+</div>
+<div class="modal-body">
+    <ul class="nav nav-tabs mb-4 border-b border-gray-200">
+        <li class="nav-item" (click)="activeTab = 'for-device'">
+            <a class="nav-link d-flex align-items-center gap-2 px-4 py-2 rounded-top"
+                [ngClass]="{ active: activeTab === 'for-device', 'text-primary fw-bold': activeTab === 'for-device' }"
+                href="javascript:void(0)">
+                <i class="fa fa-mobile"></i> For Device
+            </a>
+        </li>
+
+        <li class="nav-item" (click)="activeTab = 'for-service'">
+            <a class="nav-link d-flex align-items-center gap-2 px-4 py-2 rounded-top"
+                [ngClass]="{ active: activeTab === 'for-service', 'text-primary fw-bold': activeTab === 'for-service' }"
+                href="javascript:void(0)">
+                <i class="fa fa-desktop"></i> For Service
+            </a>
+        </li>
+
+
+    </ul>
+    @if(activeTab === 'for-device') {
+    <app-device-plan />
+    } @else if(activeTab == 'for-service') {
+    <app-service-plan />
+    }
+</div>

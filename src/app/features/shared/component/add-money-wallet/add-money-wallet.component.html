@@ -1,0 +1,45 @@
+<div class="modal-header text-center">
+    <h5>{{tittle}} Amount</h5>
+    <div class="close-modal">
+        <i class="fa fa-close" style="cursor: pointer;" (click)="cancel()"></i>
+    </div>
+</div>
+<div class="modal-body">
+    <form [formGroup]="addMoneyForm">
+        <div class="_card white-bg">
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Amount</label>
+
+                    <input type="text" class="form-control" placeholder="Enter Amount" formControlName="amount"
+                        maxlength="50" (keypress)="($event.key.match('[0-9]') ? true : $event.preventDefault())" />
+
+                    @if (
+                    addMoneyForm.get('amount')?.invalid &&
+                    (addMoneyForm.get('amount')?.dirty ||
+                    addMoneyForm.get('amount')?.touched)
+                    ) {
+                    <div>
+                        @if (addMoneyForm.get('amount')?.errors?.['required']) {
+                        <span class="text-danger">Amount is Required</span>
+                        }
+                        @if (addMoneyForm.get('amount')?.errors?.['pattern']) {
+                        <span class="text-danger">Only numbers are allowed</span>
+                        }
+                    </div>
+                    }
+                </div>
+
+
+            </div>
+        </div>
+
+        <!-- Footer Buttons -->
+        <div class="footer">
+            <div class="button-container">
+                <button class="btn btn-success" type="submit" (click)="submit(addMoneyForm.value)">Submit</button>
+                <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>

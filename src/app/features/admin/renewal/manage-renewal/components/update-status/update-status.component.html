@@ -1,0 +1,260 @@
+<div class="modal-header text-center">
+  <h5>Generate Request</h5>
+  <div class="close-modal">
+    <i class="fa fa-close" style="cursor: pointer" (click)="cancel()"></i>
+  </div>
+</div>
+
+<div class="modal-body">
+  <form [formGroup]="generateRequestForm">
+    <div class="_card white-bg">
+      <div class="row">
+        <!-- Plan Category -->
+        <div class="col-md-2 mb-3">
+          <label class="form-label">Plan Category</label>
+          <ngx-select-dropdown [config]="config" formControlName="planCategory" [options]="planCategoryList"
+            (change)="onSelectPlanCategory($event)">
+          </ngx-select-dropdown>
+
+          @if (generateRequestForm.get('planCategory')?.invalid &&
+          generateRequestForm.get('planCategory')?.touched) {
+          <span class="text-danger">Plan Category is required</span>
+          }
+        </div>
+
+        <!-- Plan Sub Category -->
+        <div class="col-md-2 mb-3">
+          <label class="form-label">Plan Sub Category</label>
+          <ngx-select-dropdown [config]="config" formControlName="planSubCategory" [options]="PlanSubCategoryList"
+            (change)="onSelectPlanSubCategory($event)">
+          </ngx-select-dropdown>
+
+          @if (generateRequestForm.get('planSubCategory')?.invalid &&
+          generateRequestForm.get('planSubCategory')?.touched) {
+          <span class="text-danger">Plan Sub Category is required</span>
+          }
+        </div>
+        <div class="col-md-2 mb-3">
+          <label class="form-label">Month</label>
+
+          <div class="input-group">
+            <button type="button" class="btn btn-outline-secondary" (click)="decreaseMonth()"
+              [disabled]="!canChangeMonth">
+              −
+            </button>
+
+            <input type="text" class="form-control text-center" formControlName="month" readonly />
+
+            <button type="button" class="btn btn-outline-secondary" (click)="increaseMonth()"
+              [disabled]="!canChangeMonth">
+              +
+            </button>
+          </div>
+        </div>
+
+        <!-- Price -->
+        <div class="col-md-2 mb-3">
+          <label class="form-label">Price</label>
+          <input type="text" class="form-control" formControlName="price" readonly />
+
+          @if (generateRequestForm.get('price')?.invalid &&
+          generateRequestForm.get('price')?.touched) {
+          <span class="text-danger">Price is required</span>
+          }
+        </div>
+
+        <!-- Tax -->
+        <div class="col-md-2 mb-3">
+          <label class="form-label">Tax</label>
+          <input type="text" class="form-control" formControlName="tax" readonly />
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label class="form-label">Net Amount</label>
+          <input type="text" class="form-control" formControlName="netAmount" readonly />
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label class="form-label">ICCID</label>
+          <input type="text" class="form-control" formControlName="iccid" placeholder="Enter ICCID" readonly />
+
+          @if (generateRequestForm.get('iccid')?.invalid &&
+          generateRequestForm.get('iccid')?.touched) {
+          <span class="text-danger">ICCID is required</span>
+          }
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label class="form-label">Device IMEI</label>
+          <input type="text" class="form-control" formControlName="deviceImei" placeholder="Enter Device IMEI" />
+
+          @if (generateRequestForm.get('deviceImei')?.invalid &&
+          generateRequestForm.get('deviceImei')?.touched) {
+          <span class="text-danger">Device IMEI is required</span>
+          }
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label class="form-label">Device ESN</label>
+          <input type="text" class="form-control" formControlName="deviceEsn" placeholder="Enter Device ESN" />
+
+          @if (generateRequestForm.get('deviceEsn')?.invalid &&
+          generateRequestForm.get('deviceEsn')?.touched) {
+          <span class="text-danger">Device ESN is required</span>
+          }
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label class="form-label">Device Make</label>
+          <input type="text" class="form-control" formControlName="deviceMake" placeholder="Enter Device Make" />
+
+          @if (generateRequestForm.get('deviceMake')?.invalid &&
+          generateRequestForm.get('deviceMake')?.touched) {
+          <span class="text-danger">Device Make is required</span>
+          }
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label class="form-label">Device Model</label>
+          <input type="text" class="form-control" formControlName="deviceModel" placeholder="Enter Device Model" />
+
+          @if (generateRequestForm.get('deviceModel')?.invalid &&
+          generateRequestForm.get('deviceModel')?.touched) {
+          <span class="text-danger">Device Model is required</span>
+          }
+        </div>
+
+        <!-- <div class="col-md-2 mb-3">
+          <label class="form-label">Plan Name</label>
+          <input type="text" class="form-control" formControlName="planName" placeholder="Enter Plan Name" />
+
+          @if (generateRequestForm.get('planName')?.invalid &&
+          generateRequestForm.get('planName')?.touched) {
+          <span class="text-danger">Plan Name is required</span>
+          }
+        </div> -->
+
+        <!-- <div class="col-md-2 mb-3">
+          <label class="form-label">Project</label>
+          <input type="text" class="form-control" formControlName="project" placeholder="Enter Project Name" />
+
+          @if (generateRequestForm.get('project')?.invalid &&
+          generateRequestForm.get('project')?.touched) {
+          <span class="text-danger">Project is required</span>
+          }
+        </div> -->
+
+        <div class="col-md-2 mb-3">
+          <label class="form-label">RTO State</label>
+          <input type="text" class="form-control" formControlName="rtoState" placeholder="Enter RTO State" />
+          @if (generateRequestForm.get('rtoState')?.invalid &&
+          generateRequestForm.get('rtoState')?.touched) {
+          <span class="text-danger">RTO State is required</span>
+          }
+        </div>
+
+        <!-- <div class="col-md-2 mb-3">
+          <label class="form-label">Device Type</label>
+          <input type="text" class="form-control" formControlName="deviceType" placeholder="Enter Device Type" />
+
+          @if (generateRequestForm.get('deviceType')?.invalid &&
+          generateRequestForm.get('deviceType')?.touched) {
+          <span class="text-danger">Device Type is required</span>
+          }
+        </div> -->
+
+        <!-- <div class="col-md-2 mb-3">
+          <label class="form-label">IP Address</label>
+          <input type="text" class="form-control" formControlName="IP" placeholder="Enter IP Address" />
+
+          @if (generateRequestForm.get('IP')?.invalid &&
+          generateRequestForm.get('IP')?.touched) {
+          <span class="text-danger">IP Address is required</span>
+          }
+        </div> -->
+
+        <!-- <div class="col-md-2 mb-3">
+          <label class="form-label">Mobile</label>
+          <input type="text" class="form-control" formControlName="Mobile" placeholder="Enter Mobile Number" />
+
+          @if (generateRequestForm.get('Mobile')?.invalid &&
+          generateRequestForm.get('Mobile')?.touched) {
+          <span class="text-danger">Mobile is required</span>
+          }
+        </div> -->
+
+        <!-- <div class="col-md-2 mb-3">
+          <label class="form-label">Profile</label>
+          <input type="text" class="form-control" formControlName="profile" placeholder="Enter Profile" />
+
+          @if (generateRequestForm.get('profile')?.invalid &&
+          generateRequestForm.get('profile')?.touched) {
+          <span class="text-danger">Profile is required</span>
+          }
+        </div> -->
+
+        <div class="col-md-2 mb-3">
+          <label class="form-label">Custodian Name</label>
+          <input type="text" class="form-control" formControlName="CustodianName" placeholder="Enter Custodian Name" />
+
+          @if (generateRequestForm.get('CustodianName')?.invalid &&
+          generateRequestForm.get('CustodianName')?.touched) {
+          <span class="text-danger">Custodian Name is required</span>
+          }
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label class="form-label">Custodian Mobile</label>
+          <input type="text" class="form-control" formControlName="custodianMoNumber"
+            placeholder="Enter Custodian Mobile Number" />
+
+          @if (generateRequestForm.get('custodianMoNumber')?.invalid &&
+          generateRequestForm.get('custodianMoNumber')?.touched) {
+          <span class="text-danger">Mobile Number is required</span>
+          }
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label class="form-label">City</label>
+          <input type="text" class="form-control" formControlName="city" placeholder="Enter City" />
+
+          @if (generateRequestForm.get('city')?.invalid &&
+          generateRequestForm.get('city')?.touched) {
+          <span class="text-danger">City is required</span>
+          }
+        </div>
+
+        <div class="col-md-2 mb-3">
+          <label class="form-label">Pincode</label>
+          <input type="text" class="form-control" formControlName="pincode" placeholder="Enter Pincode" />
+
+          @if (generateRequestForm.get('pincode')?.invalid &&
+          generateRequestForm.get('pincode')?.touched) {
+          <span class="text-danger">Pincode is required</span>
+          }
+        </div>
+
+        <div class="col-md-4 mb-3">
+          <label class="form-label">Address</label>
+          <input type="text" class="form-control" formControlName="address" placeholder="Enter Full Address" />
+          @if (generateRequestForm.get('address')?.invalid &&
+          generateRequestForm.get('address')?.touched) {
+          <span class="text-danger">Address is required</span>
+          }
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      <div class="button-container">
+        <button class="btn btn-success" type="submit" (click)="submit(generateRequestForm.value)">
+          Submit
+        </button>
+
+        <button class="btn btn-danger" type="button" (click)="cancel()">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

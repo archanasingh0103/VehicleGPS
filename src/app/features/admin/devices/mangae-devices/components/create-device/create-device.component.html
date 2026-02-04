@@ -1,0 +1,72 @@
+<div class="modal-header text-center">
+    <h5>{{tittle}} {{manufacture.text}}'s Device</h5>
+    <div class="close-modal">
+        <i class="fa fa-close" style="cursor: pointer;" (click)="cancel()"></i>
+    </div>
+</div>
+<div class="modal-body">
+    <form [formGroup]="deviceForm">
+        <div class="_card white-bg">
+            <!-- Row 1: 3 Columns -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">UID</label>
+                    <input type="text" class="form-control" placeholder="Enter UID" formControlName="uid" maxlength="12"
+                        (keypress)="($event.key.match('[0-9]') ? true : $event.preventDefault())" />
+                    @if (deviceForm.get('uid')?.hasError('required') && deviceForm.get('uid')?.touched) {
+                    <span class="text-danger">UID is required</span>
+                    }
+                    @if (deviceForm.get('uid')?.hasError('pattern')) {
+                    <span class="text-danger">UID cannot be more than 15 characters</span>
+                    }
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">IMEI</label>
+                    <input type="text" class="form-control" placeholder="Enter IMEI" formControlName="imei"
+                        maxlength="15" (keypress)="($event.key.match('[0-9]') ? true : $event.preventDefault())" />
+                    @if (deviceForm.get('imei')?.hasError('required') && deviceForm.get('imei')?.touched) {
+                    <span class="text-danger">IMEI is required</span>
+                    }
+                    @if (deviceForm.get('imei')?.hasError('pattern')) {
+                    <span class="text-danger">IMEI must be exactly 15 digits</span>
+                    }
+                </div>
+            </div>
+
+            <!-- Row 2: 3 Columns -->
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">ICCID</label>
+                    <input type="text" class="form-control" placeholder="Enter ICCID" formControlName="iccid"
+                        (keypress)="($event.key.match('[0-9]') ? true : $event.preventDefault())" maxlength="20" />
+
+                    @if (deviceForm.get('iccid')?.hasError('required') && deviceForm.get('iccid')?.touched) {
+                    <span class="text-danger">ICCID is required</span>
+                    }
+                    @if (deviceForm.get('iccid')?.hasError('pattern')) {
+                    <span class="text-danger">ICCID cannot be more than 20 digits</span>
+                    }
+                </div>
+
+                <div class="col-md-6 mb-3">
+                    <label class="form-label">Product</label>
+                    <ngx-select-dropdown place [config]="config" [options]="productList" formControlName="product">
+                    </ngx-select-dropdown>
+                    @if (deviceForm.get('product')?.invalid && deviceForm.get('product')?.touched) {
+                    <span class="text-danger">Product is required</span>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer Buttons -->
+        <div class="footer">
+            <div class="button-container">
+                <button class="btn btn-success" type="submit" (click)="submit(deviceForm.value)">Submit</button>
+                <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>

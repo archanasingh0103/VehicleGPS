@@ -1,0 +1,60 @@
+<div class="modal-header text-center">
+    <h5>{{tittle}} Plan Sub Category</h5>
+    <div class="close-modal">
+        <i class="fa fa-close" style="cursor: pointer;" (click)="cancel()"></i>
+    </div>
+</div>
+<div class="modal-body">
+    <form [formGroup]="planSubCategoryForm">
+        <div class="_card white-bg">
+            <!-- Row 1: 3 Columns -->
+            <div class="row">
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Plan Category</label>
+                    <ngx-select-dropdown [config]="config" formControlName="planCategory"
+                        class="lg:w-[250px] sm:w-full md:w-full" [options]="categoryList">
+                    </ngx-select-dropdown>
+
+                    @if (planSubCategoryForm.get('planCategory')?.invalid &&
+                    (planSubCategoryForm.get('planCategory')?.dirty ||
+                    planSubCategoryForm.get('planCategory')?.touched)) {
+                    <div>
+                        @if (planSubCategoryForm.get('planCategory')?.errors?.['required']) {
+                        <span class="text-danger">Plan Category is Required</span>
+                        }
+                    </div>
+                    }
+                </div>
+                <div class="col-md-12 mb-3">
+                    <label class="form-label">Plan Sub Category Name</label>
+                    <input type="text" class="form-control" placeholder="Enter Sub Category Name"
+                        formControlName="planSubCategoryName" maxlength="50"
+                        (keypress)="($event.key.match('[a-zA-Z0-9]') ? true : $event.preventDefault())" />
+
+                    @if (planSubCategoryForm.get('planSubCategoryName')?.invalid &&
+                    (planSubCategoryForm.get('planSubCategoryName')?.dirty ||
+                    planSubCategoryForm.get('planSubCategoryName')?.touched)) {
+                    <div>
+                        @if (planSubCategoryForm.get('planSubCategoryName')?.errors?.['required']) {
+                        <span class="text-danger">Plan Sub Category Name is Required</span>
+                        }
+                        @if (planSubCategoryForm.get('planSubCategoryName')?.errors?.['pattern']) {
+                        <span class="text-danger">Only alphanumeric characters are allowed</span>
+                        }
+                    </div>
+                    }
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer Buttons -->
+        <div class="footer">
+            <div class="button-container">
+                <button class="btn btn-success" type="submit"
+                    (click)="submit(planSubCategoryForm.value)">Submit</button>
+                <button class="btn btn-danger" type="button" (click)="cancel()">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>
